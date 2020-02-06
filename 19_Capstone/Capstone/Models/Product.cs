@@ -5,15 +5,15 @@ using System.Text;
 
 namespace Capstone.Models
 {
-    abstract class Product : IPurchaseable
+    public abstract class Product : IPurchaseable
     {
         #region Properties
         public string Slot { get; set; }
         public string Name { get; set; }
         public decimal Cost { get; set; }
-        protected string Quantity { get; private set; }
+        public string Quantity { get; private set; } = "5";
         public string Message { get; set; }
-        //protected decimal Revenue { get; private set; } = 0.00M;
+        protected decimal Revenue { get; private set; } = 0.00M;
         public Dictionary<string, int> Sold { get; private set; }
        
         #endregion
@@ -59,7 +59,7 @@ namespace Capstone.Models
                 if (slot == product.Slot)
                 {
                     product.Subtract();
-                    //this.Revenue += product.Cost;
+                    this.Revenue += product.Cost;
                     Sold[product.Name] += 1;
                     Console.WriteLine($"{product.Name} {product.Cost} {CMP - product.Cost} \n{product.Message}");
                     using (StreamReader st = new StreamReader("Log.txt", true))
