@@ -9,6 +9,7 @@ namespace Capstone.Models
     {
         #region Properties
         public List<Product> Products;
+        public Dictionary<string, int> Sold;
         public decimal TotalSales = 0.00M;
         decimal CurrentMoneyProvided = 0.00M;
         #endregion
@@ -52,14 +53,34 @@ namespace Capstone.Models
         #endregion
 
         #region Methods
+        public decimal Current()
+        {
+            return CurrentMoneyProvided;
+        }
+        public void Choose(string choice)
+        {
+            foreach (Product item in Products)
+            {
+                if (choice == item.Slot)
+                {
+                    CurrentMoneyProvided =  item.Purchase(item, CurrentMoneyProvided);
+                    TotalSales += item.Revenue;
+                    Sold[item.Name] += 1;
+                }
+                if (choice != item.Slot)
+                {
+                    throw new Exception("Does not exist!");
+                }
+            }
+        }
         public void AddMoney(string input)
         {
             decimal num = decimal.Parse(input);
             if (num == 1.00M || num == 2.00m || num == 5.00m || num == 10.00m)
             {
-                using (StreamReader st = new StreamReader("Log.txt", true))
+                using (StreamWriter sw = new StreamWriter(@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\Log.txt", true))
                 {
-                    Console.WriteLine($"{DateTime.Now} FEED MONEY: {CurrentMoneyProvided} {CurrentMoneyProvided + num}");
+                    sw.WriteLine($"{DateTime.Now} FEED MONEY: {CurrentMoneyProvided} {CurrentMoneyProvided + num}");
                 }
                 CurrentMoneyProvided += num;
             }
@@ -89,9 +110,9 @@ namespace Capstone.Models
                 CurrentMoneyProvided -= 0.05M;
                 nickels++;
             }
-            using (StreamReader st = new StreamReader("Log.txt", true))
+            using (StreamWriter sw = new StreamWriter(@"C: \Users\Student\git\c - module - 1 - capstone - team - 7\19_Capstone\Log.txt", true))
             {
-                Console.WriteLine($"{DateTime.Now} GIVE CHANGE: {holder} $0.00");
+                sw.WriteLine($"{DateTime.Now} GIVE CHANGE: {holder} $0.00");
             }
             return $"You have {quarters} quarters, {dimes} dimes, and {nickels} nickels for a total of {holder:C}. Current Money Provided is $0.00.";
         }
@@ -99,8 +120,28 @@ namespace Capstone.Models
         {
             foreach (Product item in Products)
             {
-                Console.WriteLine($"{item.Name} {item.Quantity}");
+                Console.WriteLine($"{item.Name}|{item.Quantity}");
 
+            }
+        }
+        public void SelectProduct()
+        {
+            foreach (Product item in Products)
+            {
+                Console.WriteLine($"{item.Slot} {item.Name} {item.Cost} {item.Quantity}");
+
+            }
+        }
+        public void SalesReport()
+        {
+            using (StreamWriter sw = new StreamWriter($@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\SalesReport{DateTime.Now}"))
+            {
+                foreach (KeyValuePair<string, int> kvp in Sold)
+                {
+                    sw.WriteLine($"{kvp.Key}|{kvp.Value}");
+                }
+                Console.WriteLine();
+                Console.WriteLine($"Total Sales: {TotalSales:C}");
             }
         }
         #endregion

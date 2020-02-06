@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Capstone.Models
 {
-    public abstract class Product : IPurchaseable
+    public abstract class Product 
     {
         #region Properties
         public string Slot { get; set; }
@@ -13,8 +13,8 @@ namespace Capstone.Models
         public decimal Cost { get; set; }
         public string Quantity { get; private set; } = "5";
         public string Message { get; set; }
-        protected decimal Revenue { get; private set; } = 0.00M;
-        public Dictionary<string, int> Sold { get; private set; }
+        public decimal Revenue { get; private set; } = 0.00M;
+        
        
         #endregion
 
@@ -48,38 +48,30 @@ namespace Capstone.Models
             }
         }
 
-        public decimal Purchase(string slot, List<Product> products, decimal CMP)
+        public decimal Purchase(Product product, decimal CMP)
         {
-            foreach (Product product in products)
-            {
-                if (product.Cost > CMP)
-                {
-                    throw new Exception("Not enough money!");
-                }
-                if (slot == product.Slot)
-                {
-                    product.Subtract();
-                    this.Revenue += product.Cost;
-                    Sold[product.Name] += 1;
-                    Console.WriteLine($"{product.Name} {product.Cost} {CMP - product.Cost} \n{product.Message}");
-                    using (StreamReader st = new StreamReader("Log.txt", true))
-                    {
-                        Console.WriteLine($"{DateTime.Now} {product.Name} {CMP} {CMP - product.Cost}");
-                    }
-                    CMP -= product.Cost;
-                }
-                else if (slot != product.Slot)
-                {
-                    throw new Exception("Does not exist!");
-                }
-            }
+             if (product.Cost > CMP)
+             {
+                 throw new Exception("Not enough money!");
+             }
+             else
+             {
+                 product.Subtract();
+                 this.Revenue += product.Cost;
+                 Console.WriteLine($"{product.Name} {product.Cost} {CMP - product.Cost} \n{product.Message}");
+                 using (StreamReader st = new StreamReader(@"C: \Users\Student\git\c - module - 1 - capstone - team - 7\19_Capstone\Log.txt", true))
+                 {
+                     Console.WriteLine($"{DateTime.Now} {product.Name} {CMP} {CMP - product.Cost}");
+                 }
+                 CMP -= product.Cost;
+             }
             return CMP;
         }
 
-        public void Purchase(string slot)
+        /*public void Purchase(string slot)
         {
             throw new NotImplementedException();
-        }
+        }*/
         #endregion
 
     }
