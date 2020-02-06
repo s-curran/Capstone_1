@@ -21,7 +21,7 @@ namespace Capstone.Models
             {
                 while (!sr.EndOfStream)
                 {
-                    string item = Console.ReadLine();
+                    string item = sr.ReadLine();
                     string[] individualItem = item.Split("|");
                     string slot = individualItem[0];
                     string name = individualItem[1];
