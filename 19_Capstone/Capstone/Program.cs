@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Capstone.Models;
+using System;
 
 namespace Capstone
 {
@@ -6,7 +7,21 @@ namespace Capstone
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            while (true)
+            {
+                LoadVendingMachine();
+
+                Console.WriteLine("");
+                Console.WriteLine("");
+                Console.WriteLine("");
+                string input = Console.ReadLine();
+
+            }
+        }
+        public static void LoadVendingMachine()
+        {
+            VendingMachine vendingMachine = new VendingMachine("vendingmachine.csv");
+
         }
     }
 }
