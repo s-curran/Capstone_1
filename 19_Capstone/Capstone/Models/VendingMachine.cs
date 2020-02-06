@@ -32,19 +32,19 @@ namespace Capstone.Models
                         case "Chip":
                             Chip chip = new Chip(slot, name, cost);
                             Products.Add(chip);
-                            return;
+                            break;
                         case "Candy":
                             Candy candy = new Candy(slot, name, cost);
                             Products.Add(candy);
-                            return;
+                            break;
                         case "Drink":
                             Drink drink = new Drink(slot, name, cost);
                             Products.Add(drink);
-                            return;
+                            break;
                         case "Gum":
                             Gum gum = new Gum(slot, name, cost);
                             Products.Add(gum);
-                            return;
+                            break;
                     }
                 }
             }
@@ -94,7 +94,14 @@ namespace Capstone.Models
                 Console.WriteLine($"{DateTime.Now} GIVE CHANGE: {holder} $0.00");
             }
             return $"You have {quarters} quarters, {dimes} dimes, and {nickels} nickels for a total of {holder:C}. Current Money Provided is $0.00.";
-            
+        }
+        public void Display()
+        {
+            foreach (Product item in Products)
+            {
+                Console.WriteLine($"{item.Name} {item.Quantity}");
+
+            }
         }
         #endregion
     }
