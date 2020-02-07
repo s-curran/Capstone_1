@@ -74,10 +74,6 @@ namespace Capstone.Models
             return CMP;
         }
 
-        /*public void Purchase(string slot)
-        {
-            throw new NotImplementedException();
-        }*/
         #endregion
 
     }
