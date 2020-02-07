@@ -180,10 +180,7 @@ namespace Capstone.Models
             Console.WriteLine("Sales Report created.");
             Console.ReadLine();
         }
-        public void Wait5()
-        {
-            
-        }
+       
         #endregion
     }
 }
