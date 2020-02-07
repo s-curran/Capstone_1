@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Capstone.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -52,7 +53,7 @@ namespace Capstone.Models
         {
              if (product.Cost > CMP)
              {
-                 throw new Exception("Not enough money!");
+                 throw new InsufficientFundsException("Not enough money!");
              }
              else
              {

@@ -56,6 +56,7 @@ namespace Capstone
                     case "1":
                         Console.Clear();
                         Console.WriteLine("Enter $ amount 1, 2, 5,or 10: ");
+                        Console.Write("$");
                         string amount = Console.ReadLine();
                         vendingMachine.AddMoney(amount);
                         break;

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Capstone.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace Capstone.Models
 {
@@ -61,21 +63,29 @@ namespace Capstone.Models
         {
             foreach (Product item in Products)
             {
-                if (choice == item.Slot)
+                try
                 {
-                    Console.Clear();
-                    CurrentMoneyProvided =  item.Purchase(item, CurrentMoneyProvided);
-                    TotalSales += item.Revenue;
-                    if (Sold.ContainsKey(item.Name))
+                    if (choice == item.Slot)
                     {
-                        Sold[item.Name] += 1;
+                        Console.Clear();
+                        CurrentMoneyProvided = item.Purchase(item, CurrentMoneyProvided);
+                        TotalSales += item.Revenue;
+                        if (Sold.ContainsKey(item.Name))
+                        {
+                            Sold[item.Name] += 1;
+                        }
+                        else
+                        {
+                            Sold[item.Name] = 1;
+                        }
+                        Console.ReadLine();
+                        break;
                     }
-                    else
-                    {
-                        Sold[item.Name] = 1;
-                    }
+                }
+                catch (InsufficientFundsException e)
+                {
+                    Console.WriteLine($"Please add more money!");
                     Console.ReadLine();
-                    break;
                 }
                 if (choice == "")
                 {
@@ -129,18 +139,20 @@ namespace Capstone.Models
             {
                 sw.WriteLine($"{DateTime.Now} GIVE CHANGE: {holder} $0.00");
             }
-            return $"You have {quarters} quarters, {dimes} dimes, and {nickels} nickels for a total of {holder:C}. Current Money Provided is $0.00.";
+            return $"You have {quarters} quarters, {dimes} dimes, and {nickels} nickels for a total of {holder:C} in change. \nCurrent Money Provided is $0.00.";
         }
         public void Display()
         {
+            Console.WriteLine($"{"Slot", 5}|{"Name", 20}|{"Quantity", -10}");
+            Console.WriteLine("***********************************");
             foreach (Product item in Products)
             {
-                Console.WriteLine($"{item.Name}|{item.Quantity}");
-
+                Console.WriteLine($"{item.Slot, 5}|{item.Name, 20}|{item.Quantity, -10}");
             }
         }
         public void SelectProduct()
         {
+            Console.WriteLine($"{"Slot"} {"Name"} {"Cost"} {"Quantity"}");
             foreach (Product item in Products)
             {
                 Console.WriteLine($"{item.Slot} {item.Name} {item.Cost} {item.Quantity}");
@@ -160,6 +172,10 @@ namespace Capstone.Models
             }
             Console.WriteLine("Sales Report created.");
             Console.ReadLine();
+        }
+        public void Wait5()
+        {
+            
         }
         #endregion
     }
