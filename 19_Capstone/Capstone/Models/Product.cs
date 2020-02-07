@@ -34,6 +34,10 @@ namespace Capstone.Models
 
         public void Subtract()
         {
+            if (this.Quantity == "SOLD OUT!")
+            {
+                throw new OutOfStockException();
+            }
             int num = int.Parse(this.Quantity);
             if (num > 0)
             {
@@ -59,7 +63,8 @@ namespace Capstone.Models
              {
                  product.Subtract();
                  this.Revenue += product.Cost;
-                 Console.WriteLine($"{product.Name} ${product.Cost} ${CMP - product.Cost} \n{product.Message}");
+                 Console.WriteLine($"{"Product", -20}{"Cost", -10}{"Money Remaining", -10}");
+                 Console.WriteLine($"{product.Name, -20}${product.Cost, -10}${CMP - product.Cost, -10} \n{product.Message}");
                  using (StreamWriter sw = new StreamWriter(@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\Log.txt", true))
                  {
                      sw.WriteLine($"{DateTime.Now} {product.Name} {CMP} {CMP - product.Cost}");

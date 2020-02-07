@@ -11,8 +11,8 @@ namespace Capstone.Models
     {
         #region Properties
         public List<Product> Products;
-        public Dictionary<string, int> Sold = new Dictionary<string, int>();
-        public decimal TotalSales = 0.00M;
+        public static Dictionary<string, int> Sold = new Dictionary<string, int>();
+        public static decimal TotalSales = 0.00M;
         decimal CurrentMoneyProvided = 0.00M;
         #endregion
 
@@ -82,9 +82,14 @@ namespace Capstone.Models
                         break;
                     }
                 }
-                catch (InsufficientFundsException e)
+                catch (InsufficientFundsException)
                 {
                     Console.WriteLine($"Please add more money!");
+                    Console.ReadLine();
+                }
+                catch (OutOfStockException)
+                {
+                    Console.WriteLine("Product Out of Stock");
                     Console.ReadLine();
                 }
                 if (choice == "")
@@ -167,8 +172,8 @@ namespace Capstone.Models
                 {
                     sw.WriteLine($"{kvp.Key}|{kvp.Value}");
                 }
-                Console.WriteLine();
-                Console.WriteLine($"Total Sales: {TotalSales:C}");
+                sw.WriteLine();
+                sw.WriteLine($"Total Sales: {TotalSales:C}");
             }
             Console.WriteLine("Sales Report created.");
             Console.ReadLine();

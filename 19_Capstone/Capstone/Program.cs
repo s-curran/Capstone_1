@@ -63,7 +63,7 @@ namespace Capstone
                     case "2":
                         Console.Clear();
                         vendingMachine.SelectProduct();
-                        string choice = Console.ReadLine();
+                        string choice = Console.ReadLine().ToUpper();
                         vendingMachine.Choose(choice);
                         break;
                     case "3":
@@ -80,8 +80,8 @@ namespace Capstone
         {
              vendingMachine = new VendingMachine(@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\vendingmachine.csv");
 
-            using (StreamWriter sw = new StreamWriter(@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\Log.txt"))
-            { }
+            //using (StreamWriter sw = new StreamWriter(@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\Log.txt"))
+            //{ }
 
 
 
