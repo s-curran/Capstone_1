@@ -81,6 +81,13 @@ namespace Capstone.Models
                         Thread.Sleep(3000);
                         break;
                     }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Product does not exist.");
+                        Thread.Sleep(2000);
+                        break;
+                    }
                 }
                 catch (InsufficientFundsException)
                 {
