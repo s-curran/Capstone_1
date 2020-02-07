@@ -10,7 +10,7 @@ namespace Capstone.Models
     public class VendingMachine
     {
         #region Properties
-        public List<Product> Products;
+        public static List<Product> Products;
         public static Dictionary<string, int> Sold = new Dictionary<string, int>();
         public static decimal TotalSales = 0.00M;
         decimal CurrentMoneyProvided = 0.00M;
@@ -78,39 +78,42 @@ namespace Capstone.Models
                         {
                             Sold[item.Name] = 1;
                         }
-                        Console.ReadLine();
+                        Thread.Sleep(3000);
                         break;
                     }
                 }
                 catch (InsufficientFundsException)
                 {
                     Console.WriteLine($"Please add more money!");
-                    Thread.Sleep(3000);
+                    Thread.Sleep(2000);
                 }
                 catch (OutOfStockException)
                 {
                     Console.WriteLine("Product Out of Stock");
-                    Thread.Sleep(3000);
+                    Thread.Sleep(2000);
                 }
                 if (choice == "")
                 {
                     break;
                 }
-                /*if (choice != item.Slot)
-                {
-                    throw new Exception("Does not exist!");
-                }*/
-                
             }
         }
         public void AddMoney(string input)
         {
-            decimal num = decimal.Parse(input);
+            decimal num = 0M;
+            if (input == "")
+            {
+                return;
+            }
+            else
+            {
+                num = decimal.Parse(input);
+            }
             if (num == 1.00M || num == 2.00m || num == 5.00m || num == 10.00m)
             {
                 using (StreamWriter sw = new StreamWriter(@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\Log.txt", true))
                 {
-                    sw.WriteLine($"{DateTime.Now} FEED MONEY: {CurrentMoneyProvided} {CurrentMoneyProvided + num}");
+                    sw.WriteLine($"{DateTime.Now} FEED MONEY: {CurrentMoneyProvided:C} {CurrentMoneyProvided + num:C}");
                 }
                 CurrentMoneyProvided += num;
             }
@@ -118,7 +121,7 @@ namespace Capstone.Models
             {
                 Console.Clear();
                 Console.WriteLine("Please enter $1, $2, $5, or $10");
-                Thread.Sleep(3000);
+                Thread.Sleep(2000);
             }
         }
         public string FinishTransaction()
@@ -144,26 +147,19 @@ namespace Capstone.Models
             }
             using (StreamWriter sw = new StreamWriter(@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\Log.txt", true))
             {
-                sw.WriteLine($"{DateTime.Now} GIVE CHANGE: {holder} $0.00");
+                sw.WriteLine($"{DateTime.Now} GIVE CHANGE: {holder:C} $0.00");
             }
             return $"You have {quarters} quarters, {dimes} dimes, and {nickels} nickels for a total of {holder:C} in change. \nCurrent Money Provided is $0.00.";
         }
-        public void Display()
-        {
-            Console.WriteLine($"{"Slot", 5}|{"Name", 20}|{"Quantity", -10}");
-            Console.WriteLine("***********************************");
-            foreach (Product item in Products)
-            {
-                Console.WriteLine($"{item.Slot, 5}|{item.Name, 20}|{item.Quantity, -10}");
-            }
-        }
         public void SelectProduct()
         {
-            Console.WriteLine($"{"Slot"} {"Name"} {"Cost"} {"Quantity"}");
+            Console.WriteLine($"{"Current Money Provided: "}{CurrentMoneyProvided:C}");
+            Console.WriteLine();
+            Console.WriteLine($"{"Slot", -5}{"Name", -20}{"Cost", -10}{"Quantity", -20}");
             Console.WriteLine();
             foreach (Product item in Products)
             {
-                Console.WriteLine($"{item.Slot} {item.Name} {item.Cost} {item.Quantity}");
+                Console.WriteLine($"{item.Slot, -5}{item.Name, -20}{item.Cost, -10:C}{item.Quantity, -10}");
                 
 
             }
@@ -180,7 +176,7 @@ namespace Capstone.Models
                 sw.WriteLine($"Total Sales: {TotalSales:C}");
             }
             Console.WriteLine("Sales Report created.");
-            Console.ReadLine();
+            Thread.Sleep(2000);
         }
        
         #endregion

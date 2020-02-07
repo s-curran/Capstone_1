@@ -1,6 +1,7 @@
 ﻿using Capstone.Models;
 using System;
 using System.IO;
+using System.Threading;
 
 namespace Capstone
 {
@@ -9,10 +10,10 @@ namespace Capstone
         public static VendingMachine vendingMachine;
         static void Main(string[] args)
         {
+            LoadVendingMachine();
             bool k = true;
             while (k)
             {
-                LoadVendingMachine();
                 Console.Clear();
                 Console.OutputEncoding = System.Text.Encoding.Unicode;
                 Console.WriteLine(@" __ __    ___  ____   ___    ____  ____    ____      ___ ___   ____     __  __ __  ____  ____     ___ ");
@@ -29,6 +30,7 @@ namespace Capstone
                 Console.WriteLine();
                 Console.WriteLine("3) Exit");
                 Console.WriteLine();
+                Console.Write("Input: ");
                 string input = Console.ReadLine();
 
                 switch (input)
@@ -42,9 +44,10 @@ ______              _            _
 |  __/ '__/ _ \ / _` | | | |/ __| __/ __|
 | |  | | | (_) | (_| | |_| | (__| |_\__ \
 \_|  |_|  \___/ \__,_|\__,_|\___|\__|___/
-                                         
                                          ");
-                        vendingMachine.Display();
+                        vendingMachine.SelectProduct();
+                        Console.WriteLine();
+                        Console.Write("Press enter to return. ");
                         Console.ReadLine();
                         break;
                     case "2":
@@ -55,6 +58,7 @@ ______              _            _
                         k = false;
                         break;
                     case "4":
+                        Console.Clear();
                         vendingMachine.SalesReport();
                         break;
                 }
@@ -73,7 +77,6 @@ ______ _   ___   __
 | ___ \ | | | \ /  
 | |_/ / |_| | | |  
 \____/ \___/  \_/  
-                   
                    ");
                 Console.WriteLine();
                 Console.WriteLine("1) Feed Money");
@@ -83,6 +86,8 @@ ______ _   ___   __
                 Console.WriteLine("3) Finish Transaction");
                 Console.WriteLine("");
                 Console.WriteLine($"Current Money Provided: ${vendingMachine.Current()}");
+                Console.WriteLine();
+                Console.Write("Input: ");
                 string input = Console.ReadLine();
                 switch (input)
                 {
@@ -114,9 +119,10 @@ ______              _            _
 |  __/ '__/ _ \ / _` | | | |/ __| __/ __|
 | |  | | | (_) | (_| | |_| | (__| |_\__ \
 \_|  |_|  \___/ \__,_|\__,_|\___|\__|___/
-                                         
                                          ");
                         vendingMachine.SelectProduct();
+                        Console.WriteLine();
+                        Console.Write("Your choice: ");
                         string choice = Console.ReadLine().ToUpper();
                         vendingMachine.Choose(choice);
                         break;
@@ -136,7 +142,7 @@ ______              _            _
                             ");
                         string result = vendingMachine.FinishTransaction();
                         Console.WriteLine(result);
-                        Console.ReadLine();
+                        Thread.Sleep(3000);
                         j = false;
                         break;
                 }
@@ -145,11 +151,6 @@ ______              _            _
         public static void LoadVendingMachine()
         {
              vendingMachine = new VendingMachine(@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\vendingmachine.csv");
-
-            //using (StreamWriter sw = new StreamWriter(@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\Log.txt"))
-            //{ }
-
-
 
         }
     }

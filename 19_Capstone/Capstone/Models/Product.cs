@@ -12,10 +12,8 @@ namespace Capstone.Models
         public string Slot { get; set; }
         public string Name { get; set; }
         public decimal Cost { get; set; }
-        public string Quantity { get; private set; } = "5";
+        public string Quantity { get; private set; } 
         public string Message { get; set; }
-        public decimal Revenue { get; private set; } = 0.00M;
-        
        
         #endregion
 
@@ -62,12 +60,11 @@ namespace Capstone.Models
              else
              {
                  product.Subtract();
-                 this.Revenue += product.Cost;
-                 Console.WriteLine($"{"Product", -20}{"Cost", -10}{"Money Remaining", -10}");
-                 Console.WriteLine($"{product.Name, -20}${product.Cost, -10}${CMP - product.Cost, -10} \n{product.Message}");
+                 Console.WriteLine($"{"Product", -20}{"Cost", -10} {"Money Remaining", -10}");
+                 Console.WriteLine($"{product.Name, -20}${product.Cost, -10}${CMP - product.Cost, -10}\n{product.Message}");
                  using (StreamWriter sw = new StreamWriter(@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\Log.txt", true))
                  {
-                     sw.WriteLine($"{DateTime.Now} {product.Name} {CMP} {CMP - product.Cost}");
+                     sw.WriteLine($"{DateTime.Now} {product.Name} {CMP:C} {CMP - product.Cost:C}");
                  }
                  CMP -= product.Cost;
              }
