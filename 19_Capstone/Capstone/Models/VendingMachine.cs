@@ -69,7 +69,7 @@ namespace Capstone.Models
                     {
                         Console.Clear();
                         CurrentMoneyProvided = item.Purchase(item, CurrentMoneyProvided);
-                        TotalSales += item.Revenue;
+                        TotalSales += item.Cost;
                         if (Sold.ContainsKey(item.Name))
                         {
                             Sold[item.Name] += 1;
@@ -85,12 +85,12 @@ namespace Capstone.Models
                 catch (InsufficientFundsException)
                 {
                     Console.WriteLine($"Please add more money!");
-                    Console.ReadLine();
+                    Thread.Sleep(3000);
                 }
                 catch (OutOfStockException)
                 {
                     Console.WriteLine("Product Out of Stock");
-                    Console.ReadLine();
+                    Thread.Sleep(3000);
                 }
                 if (choice == "")
                 {
@@ -116,7 +116,9 @@ namespace Capstone.Models
             }
             else
             {
-                throw new Exception("Please enter $1, $2, $5, or $10");
+                Console.Clear();
+                Console.WriteLine("Please enter $1, $2, $5, or $10");
+                Thread.Sleep(3000);
             }
         }
         public string FinishTransaction()
