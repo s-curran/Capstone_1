@@ -158,9 +158,11 @@ namespace Capstone.Models
         public void SelectProduct()
         {
             Console.WriteLine($"{"Slot"} {"Name"} {"Cost"} {"Quantity"}");
+            Console.WriteLine();
             foreach (Product item in Products)
             {
                 Console.WriteLine($"{item.Slot} {item.Name} {item.Cost} {item.Quantity}");
+                
 
             }
         }
