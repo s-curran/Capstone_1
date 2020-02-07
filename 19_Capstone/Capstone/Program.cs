@@ -1,5 +1,6 @@
 ﻿using Capstone.Models;
 using System;
+using System.IO;
 
 namespace Capstone
 {
@@ -60,7 +61,7 @@ namespace Capstone
                         break;
                     case "2":
                         Console.Clear();
-                        vendingMachine.Display();
+                        vendingMachine.SelectProduct();
                         string choice = Console.ReadLine();
                         vendingMachine.Choose(choice);
                         break;
@@ -77,6 +78,11 @@ namespace Capstone
         public static void LoadVendingMachine()
         {
              vendingMachine = new VendingMachine(@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\vendingmachine.csv");
+
+            using (StreamWriter sw = new StreamWriter(@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\Log.txt"))
+            { }
+
+
 
         }
     }

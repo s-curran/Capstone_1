@@ -9,7 +9,7 @@ namespace Capstone.Models
     {
         #region Properties
         public List<Product> Products;
-        public Dictionary<string, int> Sold;
+        public Dictionary<string, int> Sold = new Dictionary<string, int>();
         public decimal TotalSales = 0.00M;
         decimal CurrentMoneyProvided = 0.00M;
         #endregion
@@ -63,14 +63,29 @@ namespace Capstone.Models
             {
                 if (choice == item.Slot)
                 {
+                    Console.Clear();
                     CurrentMoneyProvided =  item.Purchase(item, CurrentMoneyProvided);
                     TotalSales += item.Revenue;
-                    Sold[item.Name] += 1;
+                    if (Sold.ContainsKey(item.Name))
+                    {
+                        Sold[item.Name] += 1;
+                    }
+                    else
+                    {
+                        Sold[item.Name] = 1;
+                    }
+                    Console.ReadLine();
+                    break;
                 }
-                if (choice != item.Slot)
+                if (choice == "")
+                {
+                    break;
+                }
+                /*if (choice != item.Slot)
                 {
                     throw new Exception("Does not exist!");
-                }
+                }*/
+                
             }
         }
         public void AddMoney(string input)
@@ -110,7 +125,7 @@ namespace Capstone.Models
                 CurrentMoneyProvided -= 0.05M;
                 nickels++;
             }
-            using (StreamWriter sw = new StreamWriter(@"C: \Users\Student\git\c - module - 1 - capstone - team - 7\19_Capstone\Log.txt", true))
+            using (StreamWriter sw = new StreamWriter(@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\Log.txt", true))
             {
                 sw.WriteLine($"{DateTime.Now} GIVE CHANGE: {holder} $0.00");
             }
@@ -134,7 +149,7 @@ namespace Capstone.Models
         }
         public void SalesReport()
         {
-            using (StreamWriter sw = new StreamWriter($@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\SalesReport{DateTime.Now}"))
+            using (StreamWriter sw = new StreamWriter($@"C:\Users\Student\git\c-module-1-capstone-team-7\19_Capstone\SalesReport{DateTime.Now.ToString("MM-dd-yyyy-hh-mm-tt")}.txt", true))
             {
                 foreach (KeyValuePair<string, int> kvp in Sold)
                 {
@@ -143,6 +158,8 @@ namespace Capstone.Models
                 Console.WriteLine();
                 Console.WriteLine($"Total Sales: {TotalSales:C}");
             }
+            Console.WriteLine("Sales Report created.");
+            Console.ReadLine();
         }
         #endregion
     }
